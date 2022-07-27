@@ -13,9 +13,7 @@
 
 	async function downloadImage() {
 		try {
-			const { data, error } = await supabase.storage
-				.from('avatars')
-				.download(path);
+			const { data, error } = await supabase.storage.from('avatars').download(path);
 			if (error) throw error;
 
 			src = URL.createObjectURL(data);
@@ -37,9 +35,7 @@
 			const fileName = `${Math.random()}.${fileExt}`;
 			const filePath = `${fileName}`;
 
-			let { error: uploadError } = await supabase.storage
-				.from('avatars')
-				.upload(filePath, file);
+			let { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file);
 
 			if (uploadError) throw uploadError;
 

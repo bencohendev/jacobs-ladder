@@ -3,6 +3,10 @@
 		{
 			label: 'Home',
 			url: '/'
+		},
+		{
+			label: 'Profile',
+			url: '/profile'
 		}
 	];
 </script>
