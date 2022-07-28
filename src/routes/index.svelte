@@ -12,7 +12,7 @@
 		user.set(session.user);
 	});
 	const handleCreateRoom = () => {
-		const roomNumber = Math.floor(100000 + Math.random() * 900000);
+		const roomNumber = Math.floor(10000000 + Math.random() * 90000000);
 		goto(`/${roomNumber}`);
 	};
 </script>
