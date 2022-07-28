@@ -11,7 +11,7 @@
 </script>
 
 <div class="container w-full h-screen grid justify-center items-center place-content-center">
-	{#if $user}
+	{#if $user.id !== 'guest'}
 		<Button on:click={handleCreateRoom}>Create New Room</Button>
 	{:else}
 		<Auth />
