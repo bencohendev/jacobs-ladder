@@ -2,12 +2,15 @@
 	import { user } from '*stores/user';
 	import { page } from '$app/stores';
 	import { supabase } from '*lib/supabaseClient.js';
-	import Card from '*c/Card.svelte';
+	import AddCard from '*c/AddCard.svelte';
+	import Score from '*c/Score.svelte';
 	import Button from '*c/Button.svelte';
 
 	let { room } = $page.params;
 	let score = [];
 	let currentCard = 0;
+	let ownerId;
+	let showAddCard = false;
 
 	const subscribe = () => {
 		const mySubscription = supabase
@@ -37,7 +40,9 @@
 
 	const createScore = async () => {
 		try {
-			const { data, error } = await supabase.from('scores').insert({ room_id: room });
+			const { data, error } = await supabase
+				.from('scores')
+				.insert({ room_id: room, owner_id: $user.id });
 			if (error) throw error;
 			console.log(data, error);
 		} catch (error) {
@@ -46,12 +51,17 @@
 	};
 	const getScore = async () => {
 		try {
-			const { data, error } = await supabase.from('scores').select('*').eq('room_id', room);
+			let { data, error } = await supabase.from('scores').select('*').eq('room_id', room);
 			console.log(data, error);
-			score = [...data][0]?.cards ?? [];
-			console.log('🚀 ~ file: index.svelte ~ line 49 ~ getScore ~ score', score);
 			if (error) throw error;
-			if (data.length === 0) createScore();
+			if (data.length === 0) {
+				createScore();
+			} else {
+				data = data[0];
+				score = data?.cards || [];
+				ownerId = data?.owner_id;
+				console.log('🚀 ~ file: index.svelte ~ line 49 ~ getScore ~ score', score);
+			}
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -64,25 +74,29 @@
 <div>
 	Welcome to room {room}
 </div>
-<div>
-	<Card on:add={handleAdd} />
+
+<div class="my-8">
+	<h2 class="text-xl font-bold ">Score</h2>
+	<Score {score} {currentCard} />
 </div>
+{$user.id}
+{ownerId}
+{#if $user && $user.id === ownerId}
+	<div>
+		<Button on:click={() => currentCard++}>Next Card</Button>
+	</div>
+{/if}
 
 <div>
-	<h1 class="font-lg">Score</h1>
-	<div class="flex">
-		{#each score as card, i}
-			<div class="p-2 border border-gray-300 {i === currentCard ? 'bg-green-500' : ''} ">
-				<div class="h-1/3">{card.rowThree ? card.rowThree : ''}</div>
-				<hr />
-				<div class="h-1/3">{card.rowTwo ? card.rowTwo : ''}</div>
-				<hr />
-				<div class="h-1/3">{card.rowOne}</div>
-			</div>
-		{/each}
+	<div>Add a new card to the score</div>
+	<div>
+		<Button on:click={() => (showAddCard = !showAddCard)}>
+			{showAddCard ? 'Hide' : 'Click to add'}
+		</Button>
 	</div>
 </div>
-
-<div>
-	<Button on:click={() => currentCard++}>Next Card</Button>
-</div>
+{#if showAddCard}
+	<div>
+		<AddCard on:add={handleAdd} />
+	</div>
+{/if}
