@@ -40,10 +40,13 @@
 
 	const createScore = async () => {
 		try {
-			const { data, error } = await supabase
+			let { data, error } = await supabase
 				.from('scores')
 				.insert({ room_id: room, owner_id: $user.id });
 			if (error) throw error;
+			data = data[0];
+			ownerId = data?.owner_id;
+			score = data?.cards || [];
 			console.log(data, error);
 		} catch (error) {
 			console.error(error);
@@ -77,10 +80,10 @@
 
 <div class="my-8">
 	<h2 class="text-xl font-bold ">Score</h2>
-	<Score {score} {currentCard} />
+	<Score bind:score {currentCard} />
 </div>
 
-{#if $user && $user.id === ownerId}
+{#if $user && $user.id === ownerId && score.length > 0}
 	<div>
 		<Button on:click={() => currentCard++}>Next Card</Button>
 	</div>
