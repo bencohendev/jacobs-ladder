@@ -23,11 +23,14 @@
 </script>
 
 <div class="w-full flex flex-col items-center">
-	<div class="w-20 my-2 flex flex-col items-center border border-black rounded ">
+	<div
+		class="w-20 my-2 flex flex-col items-center border border-black rounded "
+	>
 		<div class="my-2 w-14 ">
 			<input
 				class="w-full border border-black rounded disabled:bg-slate-400 "
 				type="number"
+				min="1"
 				name="3"
 				bind:value={rowThree}
 				disabled={!rowTwo}
@@ -38,6 +41,7 @@
 			<input
 				class="w-full border border-black rounded disabled:bg-slate-400 "
 				type="number"
+				min="1"
 				name="2"
 				bind:value={rowTwo}
 				disabled={!rowOne}
@@ -48,6 +52,7 @@
 			<input
 				class="w-full border border-black rounded "
 				type="number"
+				min="1"
 				name="1"
 				bind:value={rowOne}
 			/>
