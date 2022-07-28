@@ -79,8 +79,7 @@
 	<h2 class="text-xl font-bold ">Score</h2>
 	<Score {score} {currentCard} />
 </div>
-{$user.id}
-{ownerId}
+
 {#if $user && $user.id === ownerId}
 	<div>
 		<Button on:click={() => currentCard++}>Next Card</Button>
