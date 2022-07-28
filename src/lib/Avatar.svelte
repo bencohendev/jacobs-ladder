@@ -17,6 +17,7 @@
 			if (error) throw error;
 
 			src = URL.createObjectURL(data);
+			console.log('🚀 ~ file: Avatar.svelte ~ line 20 ~ downloadImage ~ src', src);
 		} catch (error) {
 			console.error('Error downloading image: ', error.message);
 		}
@@ -51,20 +52,14 @@
 
 <div>
 	{#if path}
-		<img
-			use:downloadImage
-			{src}
-			alt="Avatar"
-			class="avatar image"
-			style="height: {size}; width: {size};"
-		/>
+		<img use:downloadImage {src} alt="Avatar" style="height: {size}; width: {size};" />
 	{:else}
-		<div class="avatar no-image" style="height: {size}; width: {size};" />
+		<div>Please upload a profile pic</div>
 	{/if}
 
 	<div style="width: {size};">
-		<label class="button primary block" for="single">
-			{uploading ? 'Uploading ...' : 'Upload'}
+		<label class="my-8 min-h-2" for="single">
+			{uploading ? 'Uploading ...' : ''}
 		</label>
 		<input
 			type="file"

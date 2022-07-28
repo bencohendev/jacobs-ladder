@@ -2,10 +2,11 @@
 	import { supabase } from '*lib/supabaseClient';
 	import { user } from '*stores/user';
 	import Avatar from '*lib/Avatar.svelte';
+	import Button from '*c/Button.svelte';
 
 	let loading = true;
 	let username = null;
-	let website = null;
+	let pronouns = null;
 	let avatar_url = null;
 
 	async function getProfile() {
@@ -15,15 +16,16 @@
 
 			let { data, error, status } = await supabase
 				.from('profiles')
-				.select(`username,  avatar_url`)
+				.select(`*`)
 				.eq('id', user.id)
 				.single();
 
 			if (error && status !== 406) throw error;
 
 			if (data) {
-				username = data.username;
-				avatar_url = data.avatar_url;
+				username = data?.username;
+				avatar_url = data?.avatar_url;
+				pronouns = data?.pronouns;
 			}
 		} catch (error) {
 			alert(error.message);
@@ -41,6 +43,7 @@
 				id: user.id,
 				username,
 				avatar_url,
+				pronouns,
 				updated_at: new Date()
 			};
 
@@ -69,42 +72,35 @@
 	}
 </script>
 
-<form use:getProfile class="form-widget" on:submit|preventDefault={updateProfile}>
+<form use:getProfile on:submit|preventDefault={updateProfile}>
 	<div>
 		<label for="email">Email</label>
-		<input id="email" type="text" value={$user.email} disabled />
+		<input class="border border-gray-500" id="email" type="text" value={$user.email} disabled />
 	</div>
 	<div>
 		<label for="username">Name</label>
-		<input id="username" type="text" bind:value={username} />
+		<input class="border border-gray-500" id="username" type="text" bind:value={username} />
 	</div>
-
+	<div>
+		<label for="pronouns">Pronouns</label>
+		<input class="border border-gray-500" id="pronouns" type="text" bind:value={pronouns} />
+	</div>
 	<div>
 		<input
 			type="submit"
-			class="button block primary"
+			class="border border-black my-6"
 			value={loading ? 'Loading ...' : 'Update'}
 			disabled={loading}
 		/>
 	</div>
-
-	<div>
-		<button class="button block" on:click={signOut} disabled={loading}> Sign Out </button>
-	</div>
 </form>
 
-<form use:getProfile class="form-widget" on:submit|preventDefault={updateProfile}>
+<form use:getProfile on:submit|preventDefault={updateProfile}>
 	<!-- Add to body -->
 	<Avatar bind:path={avatar_url} on:upload={updateProfile} />
 
 	<!-- Other form elements -->
 </form>
-
-<style lang="scss">
-	input {
-		border: solid thin grey;
-	}
-	button {
-		border: solid thin red;
-	}
-</style>
+<div>
+	<Button on:click={signOut} disabled={loading}>Sign Out</Button>
+</div>
