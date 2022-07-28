@@ -8,6 +8,18 @@
 	const handleClick = () => {
 		dispatch('add', { rowOne, rowTwo, rowThree });
 	};
+
+	$: {
+		if (!rowOne) {
+			rowTwo = null;
+			rowThree = null;
+		}
+	}
+	$: {
+		if (!rowTwo) {
+			rowThree = null;
+		}
+	}
 </script>
 
 <div class="w-full flex flex-col items-center">
