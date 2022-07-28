@@ -1,23 +1,16 @@
 <script>
 	import { user } from '*stores/user';
-	import { page } from '$app/stores';
 	import { supabase } from '*lib/supabaseClient.js';
 	import AddCard from '*c/AddCard.svelte';
 	import Score from '*c/Score.svelte';
 	import Button from '*c/Button.svelte';
+	import { page } from '$app/stores';
 
 	let { room } = $page.params;
-	let score = [];
+	let { score } = $page.stuff;
 	let currentCard = 0;
 	let ownerId;
 	let showAddCard = false;
-
-	const setScoreData = (data) => {
-		data = data[0];
-		ownerId = data?.owner_id;
-		score = data?.cards || [];
-		console.log('owner', ownerId, 'score', score);
-	};
 
 	const subscribe = () => {
 		const scoreSubscription = supabase
@@ -44,58 +37,33 @@
 		}
 	};
 
-	const createScore = async () => {
-		try {
-			let { data, error } = await supabase
-				.from('scores')
-				.insert({ room_id: room, owner_id: $user.id });
-			if (error) throw error;
-			setScoreData(data);
-			console.log(data, error);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-	const getScore = async () => {
-		try {
-			let { data, error } = await supabase.from('scores').select('*').eq('room_id', room);
-			if (error) throw error;
-			if (data.length === 0) {
-				createScore();
-			} else {
-				setScoreData(data);
-			}
-		} catch (error) {
-			console.error(error);
-		} finally {
-			subscribe();
-		}
-	};
-	getScore();
+	subscribe();
+	console.log(score, $page);
 </script>
 
-<div>
+<div class="font-bold mt-8">
 	Welcome to room {room}
 </div>
-
-<div class="my-8">
-	<h2 class="text-xl font-bold ">Score</h2>
-	<Score bind:score {currentCard} />
-</div>
-{#if $user && $user.id === ownerId && score.length > 0}
-	<div>
-		<Button on:click={() => currentCard++}>Next Card</Button>
+<div class="flex flex-col items-center">
+	<div class="my-8">
+		<h2 class="text-xl font-bold ">Score</h2>
+		<Score bind:score {currentCard} />
 	</div>
-{/if}
+	{#if $user && $user.id === ownerId && score.length > 0}
+		<div>
+			<Button on:click={() => currentCard++}>Next Card</Button>
+		</div>
+	{/if}
 
-<div class="my-4 flex flex-col items-center">
-	<div class="mb-2">Add a new card to the score</div>
-	<div>
-		<Button on:click={() => (showAddCard = !showAddCard)}>
-			{showAddCard ? 'Hide' : 'Click to add'}
-		</Button>
+	<div class="my-4 flex flex-col items-center">
+		<div class="mb-2">Add a new card to the score</div>
+		<div>
+			<Button on:click={() => (showAddCard = !showAddCard)}>
+				{showAddCard ? 'Hide' : 'Click to add'}
+			</Button>
+		</div>
 	</div>
+	{#if showAddCard}
+		<AddCard on:add={handleAdd} />
+	{/if}
 </div>
-{#if showAddCard}
-	<AddCard on:add={handleAdd} />
-{/if}
