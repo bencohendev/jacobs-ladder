@@ -12,6 +12,13 @@
 	let ownerId;
 	let showAddCard = false;
 
+	const setScoreData = (data) => {
+		data = data[0];
+		ownerId = data?.owner_id;
+		score = data?.cards || [];
+		console.log('owner', ownerId, 'score', score);
+	};
+
 	const subscribe = () => {
 		const scoreSubscription = supabase
 			.from(`scores:room_id=eq.${room}`)
@@ -24,7 +31,6 @@
 	//subscribe();
 	const handleAdd = async (e) => {
 		const card = e.detail;
-		console.log('🚀 ~ file: index.svelte ~ line 21 ~ handleAdd ~ card', card);
 		try {
 			const { data, error } = await supabase
 				.from('scores')
@@ -44,9 +50,7 @@
 				.from('scores')
 				.insert({ room_id: room, owner_id: $user.id });
 			if (error) throw error;
-			data = data[0];
-			ownerId = data?.owner_id;
-			score = data?.cards || [];
+			setScoreData(data);
 			console.log(data, error);
 		} catch (error) {
 			console.error(error);
@@ -55,15 +59,11 @@
 	const getScore = async () => {
 		try {
 			let { data, error } = await supabase.from('scores').select('*').eq('room_id', room);
-			console.log(data, error);
 			if (error) throw error;
 			if (data.length === 0) {
 				createScore();
 			} else {
-				data = data[0];
-				score = data?.cards || [];
-				ownerId = data?.owner_id;
-				console.log('🚀 ~ file: index.svelte ~ line 49 ~ getScore ~ score', score);
+				setScoreData(data);
 			}
 		} catch (error) {
 			console.error(error);
@@ -82,7 +82,6 @@
 	<h2 class="text-xl font-bold ">Score</h2>
 	<Score bind:score {currentCard} />
 </div>
-
 {#if $user && $user.id === ownerId && score.length > 0}
 	<div>
 		<Button on:click={() => currentCard++}>Next Card</Button>
