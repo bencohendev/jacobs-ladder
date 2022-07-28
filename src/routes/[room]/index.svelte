@@ -75,7 +75,7 @@
 			<div class="p-2 border border-gray-300 {i === currentCard ? 'bg-green-500' : ''} ">
 				<div class="h-1/3">{card.rowThree ? card.rowThree : ''}</div>
 				<hr />
-				<div class="h-1/3">{card.rowTwo ? card.rowThree : ''}</div>
+				<div class="h-1/3">{card.rowTwo ? card.rowTwo : ''}</div>
 				<hr />
 				<div class="h-1/3">{card.rowOne}</div>
 			</div>
