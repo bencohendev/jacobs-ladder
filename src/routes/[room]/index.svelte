@@ -102,9 +102,9 @@
 	<Button on:click={() => (showSaveModal = true)}>Save Score</Button>
 </div>
 
-<Modal show={showSaveModal}>
-	<div>Are you sure you want to save?</div>
-	<div>
+<Modal show={showSaveModal} on:click_outside={() => (showSaveModal = false)}>
+	<div class="text-center">Are you sure you want to save?</div>
+	<div class="my-8 flex flex-row justify-around">
 		<Button on:click={() => (showSaveModal = false)}>Close</Button>
 		<Button on:click={handleSave}>Yes</Button>
 	</div>
