@@ -1,27 +1,15 @@
 <script context="module">
 	import { supabase } from '*lib/supabaseClient.js';
-	export async function load({ params, fetch, session, stuff }) {
+	export async function load({ params }) {
 		let { room } = params;
-		let score, ownerId;
+		let score, ownerId, currentCard;
 
-		const setScoreData = (data) => {
-			data = data[0];
-			ownerId = data?.owner_id;
-			score = data?.cards || [];
-		};
-		const getScore = async () => {
-			try {
-				let { data, error } = await supabase.from('scores').select('*').eq('room_id', room);
-				console.log(data, error);
-				if (error) throw error;
-				if (data) {
-					setScoreData(data);
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		};
-		await getScore();
+		let data = await getScore();
+		if (data) {
+			setScoreData(data);
+		} else {
+			score = null;
+		}
 		return {
 			props: {
 				ownerId,
@@ -29,9 +17,26 @@
 			},
 			stuff: {
 				ownerId,
-				score
+				score,
+				currentCard
 			}
 		};
+		async function setScoreData(data) {
+			data = data[0];
+			ownerId = data?.owner_id;
+			score = data?.cards;
+			currentCard = data?.score_index || 0;
+		}
+		async function getScore() {
+			try {
+				let { data, error } = await supabase.from('scores').select('*').eq('room_id', room);
+				console.log(data, error);
+				if (error) throw error;
+				return data;
+			} catch (error) {
+				console.error(error);
+			}
+		}
 	}
 </script>
 

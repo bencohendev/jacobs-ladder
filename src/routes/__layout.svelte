@@ -26,5 +26,10 @@
 
 <div class="p-20">
 	<Nav />
-	<slot />
+
+	<div class="mt-8 w-full  h-screen flex flex-col items-center">
+		<div class="max-w-4xl flex flex-col items-center">
+			<slot />
+		</div>
+	</div>
 </div>

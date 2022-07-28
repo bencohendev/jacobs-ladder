@@ -7,21 +7,10 @@
 	import { page } from '$app/stores';
 
 	let { room } = $page.params;
-	let { score } = $page.stuff;
-	let currentCard = 0;
-	let ownerId;
+	let { score, ownerId, currentCard } = $page.stuff;
+
 	let showAddCard = false;
 
-	const subscribe = () => {
-		const scoreSubscription = supabase
-			.from(`scores:room_id=eq.${room}`)
-			.on('*', (payload) => {
-				score = payload.new.cards;
-				console.log('🚀 ~ file: index.svelte ~ line 15 ~ .on ~ score', payload);
-			})
-			.subscribe();
-	};
-	//subscribe();
 	const handleAdd = async (e) => {
 		const card = e.detail;
 		try {
@@ -37,8 +26,32 @@
 		}
 	};
 
+	const handleNextCard = async () => {
+		try {
+			const { data, error } = await supabase
+				.from('scores')
+				.update({ score_index: ++currentCard })
+				.eq('room_id', room);
+			console.log(currentCard);
+			if (error) throw error;
+			console.log(data, error);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const subscribe = async () => {
+		const scoreSubscription = await supabase
+			.from(`scores:room_id=eq.${room}`)
+			.on('*', (payload) => {
+				score = payload.new.cards;
+				currentCard = payload.new.score_index;
+				console.log('subscription update', payload);
+			})
+			.subscribe();
+	};
+
 	subscribe();
-	console.log(score, $page);
 </script>
 
 <div class="font-bold mt-8">
@@ -49,9 +62,14 @@
 		<h2 class="text-xl font-bold ">Score</h2>
 		<Score bind:score {currentCard} />
 	</div>
-	{#if $user && $user.id === ownerId && score.length > 0}
+	{#if $user && $user.id === ownerId && score.length > 1}
 		<div>
-			<Button on:click={() => currentCard++}>Next Card</Button>
+			<Button
+				disabled={currentCard === score.length - 1}
+				on:click={handleNextCard}
+			>
+				Next Card
+			</Button>
 		</div>
 	{/if}
 
