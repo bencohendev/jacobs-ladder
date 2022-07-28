@@ -2,52 +2,46 @@
 	import { createEventDispatcher } from 'svelte';
 	import Button from '*c/Button.svelte';
 	let rowThree, rowTwo, rowOne;
-	let disableTwo = true;
-	let disableThree = true;
 
 	const dispatch = createEventDispatcher();
 
 	const handleClick = () => {
 		dispatch('add', { rowOne, rowTwo, rowThree });
 	};
-
-	$: {
-		if (rowOne) {
-			disableTwo = false;
-		}
-	}
-	$: {
-		if (rowTwo) {
-			disableThree = false;
-		}
-	}
 </script>
 
-<div>
-	<div>
-		<input
-			class="border border-black disabled:bg-slate-400"
-			type="number"
-			name="3"
-			bind:value={rowThree}
-			disabled={disableThree}
-		/>
+<div class="w-full flex flex-col items-center">
+	<div class="w-20 my-2 flex flex-col items-center border border-black rounded ">
+		<div class="my-2 w-14 ">
+			<input
+				class="w-full border border-black rounded disabled:bg-slate-400 "
+				type="number"
+				name="3"
+				bind:value={rowThree}
+				disabled={!rowTwo}
+			/>
+		</div>
+		<hr />
+		<div class="my-2 w-14">
+			<input
+				class="w-full border border-black rounded disabled:bg-slate-400 "
+				type="number"
+				name="2"
+				bind:value={rowTwo}
+				disabled={!rowOne}
+			/>
+		</div>
+		<hr />
+		<div class="my-2 w-14">
+			<input
+				class="w-full border border-black rounded "
+				type="number"
+				name="1"
+				bind:value={rowOne}
+			/>
+		</div>
 	</div>
-	<hr />
 	<div>
-		<input
-			class="border border-black disabled:bg-slate-400"
-			type="number"
-			name="2"
-			bind:value={rowTwo}
-			disabled={disableTwo}
-		/>
+		<Button on:click={handleClick}>Add Card</Button>
 	</div>
-	<hr />
-	<div>
-		<input class="border border-black" type="number" name="1" bind:value={rowOne} />
-	</div>
-</div>
-<div>
-	<Button on:click={handleClick}>Add Card</Button>
 </div>

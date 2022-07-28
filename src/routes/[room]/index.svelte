@@ -13,7 +13,7 @@
 	let showAddCard = false;
 
 	const subscribe = () => {
-		const mySubscription = supabase
+		const scoreSubscription = supabase
 			.from(`scores:room_id=eq.${room}`)
 			.on('*', (payload) => {
 				score = payload.new.cards;
@@ -89,8 +89,8 @@
 	</div>
 {/if}
 
-<div>
-	<div>Add a new card to the score</div>
+<div class="my-4 flex flex-col items-center">
+	<div class="mb-2">Add a new card to the score</div>
 	<div>
 		<Button on:click={() => (showAddCard = !showAddCard)}>
 			{showAddCard ? 'Hide' : 'Click to add'}
@@ -98,7 +98,5 @@
 	</div>
 </div>
 {#if showAddCard}
-	<div>
-		<AddCard on:add={handleAdd} />
-	</div>
+	<AddCard on:add={handleAdd} />
 {/if}
