@@ -1,15 +1,17 @@
 <script>
-	import { user } from '*stores/user';
+	import { page } from '$app/stores';
 	import { supabase } from '*lib/supabaseClient.js';
+	import { user } from '*stores/user';
+	import Button from '*c/Button.svelte';
+	import Modal from '*c/Modal.svelte';
 	import AddCard from '*c/AddCard.svelte';
 	import Score from '*c/Score.svelte';
-	import Button from '*c/Button.svelte';
-	import { page } from '$app/stores';
 
 	let { room } = $page.params;
 	let { score, ownerId, currentCard } = $page.stuff;
 
 	let showAddCard = false;
+	let showSaveModal = false;
 
 	const handleAdd = async (e) => {
 		const card = e.detail;
@@ -33,6 +35,19 @@
 				.update({ score_index: ++currentCard })
 				.eq('room_id', room);
 			console.log(currentCard);
+			if (error) throw error;
+			console.log(data, error);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleSave = async () => {
+		try {
+			const { data, error } = await supabase
+				.from('saved_scores')
+				.insert({ cards: score, owner_id: ownerId });
+
 			if (error) throw error;
 			console.log(data, error);
 		} catch (error) {
@@ -84,4 +99,13 @@
 	{#if showAddCard}
 		<AddCard on:add={handleAdd} />
 	{/if}
+	<Button on:click={() => (showSaveModal = true)}>Save Score</Button>
 </div>
+
+<Modal show={showSaveModal}>
+	<div>Are you sure you want to save?</div>
+	<div>
+		<Button on:click={() => (showSaveModal = false)}>Close</Button>
+		<Button on:click={handleSave}>Yes</Button>
+	</div>
+</Modal>
