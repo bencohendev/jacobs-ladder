@@ -52,7 +52,7 @@
 	import AddCard from '*c/AddCard.svelte';
 	import Score from '*c/Score.svelte';
 
-	let { room } = $page.params;
+	let { scoreId } = $page.params;
 	let { score, currentCard } = $page.stuff;
 	let ownerId = $user.id;
 	let showAddCard = false;
@@ -64,7 +64,7 @@
 			const { data, error } = await supabase
 				.from('scores')
 				.update({ cards: [...score, card] })
-				.eq('room_id', room);
+				.eq('room_id', scoreId);
 
 			if (error) throw error;
 			console.log(data, error);
@@ -78,7 +78,7 @@
 			const { data, error } = await supabase
 				.from('scores')
 				.update({ score_index: ++currentCard })
-				.eq('room_id', room);
+				.eq('room_id', scoreId);
 			console.log(currentCard);
 			if (error) throw error;
 			console.log(data, error);
@@ -91,7 +91,7 @@
 		try {
 			const { data, error } = await supabase
 				.from('saved_scores')
-				.insert({ cards: score, owner_id: ownerId, room_id: room });
+				.insert({ cards: score, owner_id: ownerId, room_id: scoreId });
 
 			if (error) throw error;
 			console.log(data, error);
@@ -102,7 +102,7 @@
 
 	const subscribe = async () => {
 		const scoreSubscription = await supabase
-			.from(`scores:room_id=eq.${room}`)
+			.from(`scores:room_id=eq.${scoreId}`)
 			.on('*', (payload) => {
 				score = payload.new.cards;
 				currentCard = payload.new.score_index;
@@ -116,7 +116,7 @@
 
 {#if score}
 	<div class="font-bold mt-8">
-		Welcome to room {room}
+		Welcome to room {scoreId}
 	</div>
 	<div class="flex flex-col items-center">
 		<div class="my-8">
@@ -135,8 +135,8 @@
 		{/if}
 
 		<div class="my-4 flex flex-col items-center">
-			<div class="mb-2">Add a new card to the score</div>
-			<div>
+			<div>Add a new card to the score</div>
+			<div class="mt-4">
 				<Button on:click={() => (showAddCard = !showAddCard)}>
 					{showAddCard ? 'Hide' : 'Click to add'}
 				</Button>
@@ -145,7 +145,9 @@
 		{#if showAddCard}
 			<AddCard on:add={handleAdd} />
 		{/if}
-		<Button on:click={() => (showSaveModal = true)}>Save Score</Button>
+		<div class="mt-4">
+			<Button on:click={() => (showSaveModal = true)}>Save Score</Button>
+		</div>
 	</div>
 
 	<Modal show={showSaveModal} on:click_outside={() => (showSaveModal = false)}>
