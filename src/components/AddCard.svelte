@@ -7,6 +7,7 @@
 
 	const handleClick = () => {
 		dispatch('add', { rowOne, rowTwo, rowThree });
+		rowOne = null;
 	};
 
 	$: {

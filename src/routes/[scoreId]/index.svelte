@@ -57,6 +57,7 @@
 	let ownerId = $user.id;
 	let showAddCard = false;
 	let showSaveModal = false;
+	let showResetModal = false;
 
 	const handleAdd = async (e) => {
 		const card = e.detail;
@@ -68,6 +69,7 @@
 
 			if (error) throw error;
 			console.log(data, error);
+			showAddCard = false;
 		} catch (error) {
 			console.error(error);
 		}
@@ -97,6 +99,24 @@
 			console.log(data, error);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			showSave = false;
+		}
+	};
+
+	const handleReset = async () => {
+		try {
+			const { data, error } = await supabase
+				.from('scores')
+				.update({ cards: [] })
+				.eq('room_id', scoreId);
+
+			if (error) throw error;
+			console.log(data, error);
+		} catch (error) {
+			console.error(error);
+		} finally {
+			showResetModal = false;
 		}
 	};
 
@@ -145,18 +165,34 @@
 		{#if showAddCard}
 			<AddCard on:add={handleAdd} />
 		{/if}
+
 		<div class="mt-4">
 			<Button on:click={() => (showSaveModal = true)}>Save Score</Button>
 		</div>
+		<Modal
+			show={showSaveModal}
+			on:click_outside={() => (showSaveModal = false)}
+		>
+			<div class="text-center">Are you sure you want to save?</div>
+			<div class="my-8 flex flex-row justify-around">
+				<Button on:click={() => (showSaveModal = false)}>Close</Button>
+				<Button on:click={handleSave}>Yes</Button>
+			</div>
+		</Modal>
 	</div>
-
-	<Modal show={showSaveModal} on:click_outside={() => (showSaveModal = false)}>
-		<div class="text-center">Are you sure you want to save?</div>
-		<div class="my-8 flex flex-row justify-around">
-			<Button on:click={() => (showSaveModal = false)}>Close</Button>
-			<Button on:click={handleSave}>Yes</Button>
-		</div>
-	</Modal>
+	<div class="mt-4">
+		<Button on:click={() => (showResetModal = true)}>Reset Score</Button>
+		<Modal
+			show={showResetModal}
+			on:click_outside={() => (showResetModal = false)}
+		>
+			<div class="text-center">Are you sure you want to reset?</div>
+			<div class="my-8 flex flex-row justify-around">
+				<Button on:click={() => (showResetModal = false)}>Close</Button>
+				<Button on:click={handleReset}>Yes</Button>
+			</div>
+		</Modal>
+	</div>
 {:else}
 	This room does not exist
 {/if}
