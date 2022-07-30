@@ -1,22 +1,22 @@
 <script context="module">
 	import { user } from '*stores/user';
 	import { supabase } from '*lib/supabaseClient';
-	supabase.auth.onAuthStateChange((_, session) => {
-		console.log('auth state change');
-		user.set(session.user);
-	});
 
 	export async function load() {
-		const returnedUser = supabase.auth.user();
-		if (returnedUser) {
-			user.set(returnedUser);
-		} else {
-			user.set({
-				id: 'guest'
-			});
-		}
-		return {};
+		let returnedUser = supabase.auth.user();
+		returnedUser = returnedUser ? returnedUser : { id: 'guest' };
+
+		user.set(returnedUser);
+
+		return { stuff: { user: returnedUser } };
 	}
+	const setAuthListener = () => {
+		supabase.auth.onAuthStateChange((_, session) => {
+			console.log('auth state change');
+			user.set(session.user);
+		});
+	};
+	setAuthListener();
 </script>
 
 <script>

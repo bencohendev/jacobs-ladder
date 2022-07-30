@@ -1,15 +1,16 @@
 <script context="module">
 	import { supabase } from '*lib/supabaseClient.js';
-	export async function load({ params }) {
-		let { room } = params;
+	export async function load({ url, params }) {
+		let { scoreId } = params;
 		let score, ownerId, currentCard;
-
+		let saved = url.pathname.includes('saved-scores');
 		let data = await getScore();
 		if (data) {
 			setScoreData(data);
 		} else {
 			score = null;
 		}
+		console.log('params', saved, { params });
 		return {
 			props: {
 				ownerId,
@@ -29,7 +30,10 @@
 		}
 		async function getScore() {
 			try {
-				let { data, error } = await supabase.from('scores').select('*').eq('room_id', room);
+				let { data, error } = await supabase
+					.from('scores')
+					.select('*')
+					.eq('room_id', scoreId);
 				console.log(data, error);
 				if (error) throw error;
 				return data;
@@ -41,11 +45,23 @@
 </script>
 
 <script>
-	export let score;
+	import { page } from '$app/stores';
+	import Score from '*c/Score.svelte';
+
+	let { room } = $page.params;
+	let { score } = $page.stuff;
 </script>
 
 {#if score}
-	<slot />
+	<div class="font-bold mt-8">
+		Welcome to room {room}
+	</div>
+	<div class="flex flex-col items-center">
+		<div class="my-8">
+			<h2 class="text-xl font-bold ">Score</h2>
+			<Score bind:score />
+		</div>
+	</div>
 {:else}
-	this room does not exist
+	This room does not exist
 {/if}

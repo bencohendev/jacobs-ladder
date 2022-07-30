@@ -8,8 +8,8 @@
 	import Score from '*c/Score.svelte';
 
 	let { room } = $page.params;
-	let { score, ownerId, currentCard } = $page.stuff;
-
+	let { score, currentCard } = $page.stuff;
+	let ownerId = $user.id;
 	let showAddCard = false;
 	let showSaveModal = false;
 
@@ -46,7 +46,7 @@
 		try {
 			const { data, error } = await supabase
 				.from('saved_scores')
-				.insert({ cards: score, owner_id: ownerId });
+				.insert({ cards: score, owner_id: ownerId, room_id: room });
 
 			if (error) throw error;
 			console.log(data, error);
