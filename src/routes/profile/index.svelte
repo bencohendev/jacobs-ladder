@@ -73,34 +73,50 @@
 </script>
 
 <form use:getProfile on:submit|preventDefault={updateProfile}>
-	<div>
+	<div class="my-2">
 		<label for="email">Email</label>
-		<input class="border border-gray-500" id="email" type="text" value={$user.email} disabled />
+		<input
+			class="border border-gray-500 p-1 ml-1"
+			id="email"
+			type="text"
+			value={$user.email}
+			disabled
+		/>
 	</div>
-	<div>
+	<div class="my-2">
 		<label for="username">Name</label>
-		<input class="border border-gray-500" id="username" type="text" bind:value={username} />
+		<input
+			class="border border-gray-500 p-1 ml-1"
+			id="username"
+			type="text"
+			bind:value={username}
+		/>
 	</div>
-	<div>
+	<div class="my-2">
 		<label for="pronouns">Pronouns</label>
-		<input class="border border-gray-500" id="pronouns" type="text" bind:value={pronouns} />
+		<input
+			class="border border-gray-500 p-1 ml-1"
+			id="pronouns"
+			type="text"
+			bind:value={pronouns}
+		/>
 	</div>
-	<div>
+	<div class="flex justify-center">
 		<input
 			type="submit"
-			class="border border-black my-6"
+			class="border border-black my-6 p-2"
 			value={loading ? 'Loading ...' : 'Update'}
 			disabled={loading}
 		/>
 	</div>
 </form>
-
+<div>Profile Picture</div>
 <form use:getProfile on:submit|preventDefault={updateProfile}>
 	<!-- Add to body -->
 	<Avatar bind:path={avatar_url} on:upload={updateProfile} />
 
 	<!-- Other form elements -->
 </form>
-<div>
+<div class="my-8">
 	<Button on:click={signOut} disabled={loading}>Sign Out</Button>
 </div>
