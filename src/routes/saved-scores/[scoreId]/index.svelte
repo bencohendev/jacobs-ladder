@@ -48,13 +48,13 @@
 	import { page } from '$app/stores';
 	import Score from '*c/Score.svelte';
 
-	let { room } = $page.params;
+	let { scoreId } = $page.params;
 	let { score } = $page.stuff;
 </script>
 
 {#if score}
 	<div class="font-bold mt-8">
-		Welcome to room {room}
+		Welcome to room {scoreId}
 	</div>
 	<div class="flex flex-col items-center">
 		<div class="my-8">
