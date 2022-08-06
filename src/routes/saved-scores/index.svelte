@@ -1,5 +1,5 @@
 <script context="module">
-	import { supabase } from '*lib/supabaseClient.js';
+	import { supabase } from '$lib/supabaseClient.js';
 	export async function load({ stuff }) {
 		let userId = stuff.user.id;
 		let scores;

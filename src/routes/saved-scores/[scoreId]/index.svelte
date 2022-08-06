@@ -1,5 +1,5 @@
 <script context="module">
-	import { supabase } from '*lib/supabaseClient.js';
+	import { supabase } from '$lib/supabaseClient.js';
 	export async function load({ url, params }) {
 		let { scoreId } = params;
 		let score, ownerId, currentCard;
@@ -10,7 +10,6 @@
 		} else {
 			score = null;
 		}
-		console.log('params', saved, { params });
 		return {
 			props: {
 				ownerId,

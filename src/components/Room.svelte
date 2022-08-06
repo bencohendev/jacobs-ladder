@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
-	import { supabase } from '*lib/supabaseClient.js';
-	import { user } from '*stores/user';
+	import { supabase } from '$lib/supabaseClient.js';
+	import { user } from '$stores/user';
 	import Button from '*c/Button.svelte';
 	import Modal from '*c/Modal.svelte';
 	import AddCard from '*c/AddCard.svelte';

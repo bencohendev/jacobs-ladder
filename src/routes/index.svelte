@@ -1,9 +1,9 @@
 <script>
-	import { supabase } from '*lib/supabaseClient.js';
+	import { supabase } from '$lib/supabaseClient.js';
 	import { goto } from '$app/navigation';
-	import { user } from '*stores/user';
-	import Auth from '*lib/Auth.svelte';
-	import Button from '*c/Button.svelte';
+	import { user } from '$stores/user';
+	import Auth from '$lib/Auth.svelte';
+	import Button from '$c/Button.svelte';
 
 	let roomNumber;
 

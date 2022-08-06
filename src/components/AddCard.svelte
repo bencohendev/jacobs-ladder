@@ -1,6 +1,6 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	import Button from '*c/Button.svelte';
+	import Button from '$c/Button.svelte';
 	let rowThree, rowTwo, rowOne;
 
 	const dispatch = createEventDispatcher();

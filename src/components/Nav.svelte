@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 
-	import { user } from '*stores/user';
+	import { user } from '$stores/user';
 	import Button from '*c/Button.svelte';
 
 	let links = [

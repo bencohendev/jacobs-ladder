@@ -1,6 +1,6 @@
 <script context="module">
-	import { user } from '*stores/user';
-	import { supabase } from '*lib/supabaseClient';
+	import { user } from '$stores/user';
+	import { supabase } from '$lib/supabaseClient';
 
 	export async function load() {
 		let returnedUser = supabase.auth.user();

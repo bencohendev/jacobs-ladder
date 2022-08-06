@@ -1,6 +1,6 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	import { supabase } from '*lib/supabaseClient';
+	import { supabase } from '$lib/supabaseClient';
 
 	export let path;
 	export let size = '10em';
@@ -13,11 +13,16 @@
 
 	async function downloadImage() {
 		try {
-			const { data, error } = await supabase.storage.from('avatars').download(path);
+			const { data, error } = await supabase.storage
+				.from('avatars')
+				.download(path);
 			if (error) throw error;
 
 			src = URL.createObjectURL(data);
-			console.log('🚀 ~ file: Avatar.svelte ~ line 20 ~ downloadImage ~ src', src);
+			console.log(
+				'🚀 ~ file: Avatar.svelte ~ line 20 ~ downloadImage ~ src',
+				src
+			);
 		} catch (error) {
 			console.error('Error downloading image: ', error.message);
 		}
@@ -36,7 +41,9 @@
 			const fileName = `${Math.random()}.${fileExt}`;
 			const filePath = `${fileName}`;
 
-			let { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file);
+			let { error: uploadError } = await supabase.storage
+				.from('avatars')
+				.upload(filePath, file);
 
 			if (uploadError) throw uploadError;
 
@@ -52,7 +59,12 @@
 
 <div>
 	{#if path}
-		<img use:downloadImage {src} alt="Avatar" style="height: {size}; width: {size};" />
+		<img
+			use:downloadImage
+			{src}
+			alt="Avatar"
+			style="height: {size}; width: {size};"
+		/>
 	{:else}
 		<div>Please upload a profile pic</div>
 	{/if}

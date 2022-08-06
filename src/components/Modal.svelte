@@ -1,7 +1,7 @@
 <script>
 	export let show = false;
 
-	import { clickOutside } from '*lib/helpers.js';
+	import { clickOutside } from '$lib/helpers.js';
 </script>
 
 {#if show}

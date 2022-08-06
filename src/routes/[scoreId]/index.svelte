@@ -1,5 +1,5 @@
 <script context="module">
-	import { supabase } from '*lib/supabaseClient.js';
+	import { supabase } from '$lib/supabaseClient.js';
 	export async function load({ url, params }) {
 		let { scoreId } = params;
 		let score, ownerId, currentCard;
@@ -46,7 +46,7 @@
 
 <script>
 	import { page } from '$app/stores';
-	import { user } from '*stores/user';
+	import { user } from '$stores/user';
 	import Button from '*c/Button.svelte';
 	import Modal from '*c/Modal.svelte';
 	import AddCard from '*c/AddCard.svelte';

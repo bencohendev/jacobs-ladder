@@ -1,7 +1,7 @@
 <script>
-	import { supabase } from '*lib/supabaseClient';
-	import { user } from '*stores/user';
-	import Avatar from '*lib/Avatar.svelte';
+	import { supabase } from '$lib/supabaseClient';
+	import { user } from '$stores/user';
+	import Avatar from '$lib/Avatar.svelte';
 	import Button from '*c/Button.svelte';
 
 	let loading = true;
