@@ -13,3 +13,9 @@ export function clickOutside(node) {
 		}
 	};
 }
+
+export const dismissToast = (delay = 3000) => {
+	setTimeout(() => {
+		return false;
+	}, delay);
+};

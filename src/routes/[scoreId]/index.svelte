@@ -51,13 +51,15 @@
 	import Modal from '*c/Modal.svelte';
 	import AddCard from '*c/AddCard.svelte';
 	import Score from '*c/Score.svelte';
+	import Toast from '*c/Toast.svelte';
 
 	let { scoreId } = $page.params;
 	let { score, currentCard } = $page.stuff;
 	let ownerId = $user.id;
-	let showAddCard = false;
-	let showSaveModal = false;
-	let showResetModal = false;
+	let addCard = false;
+	let saveModal = false;
+	let resetModal = false;
+	let toast = false;
 
 	const handleAdd = async (e) => {
 		const card = e.detail;
@@ -69,7 +71,7 @@
 
 			if (error) throw error;
 			console.log(data, error);
-			showAddCard = false;
+			addCard = false;
 		} catch (error) {
 			console.error(error);
 		}
@@ -116,7 +118,7 @@
 		} catch (error) {
 			console.error(error);
 		} finally {
-			showResetModal = false;
+			resetModal = false;
 		}
 	};
 
@@ -157,38 +159,32 @@
 		<div class="my-4 flex flex-col items-center">
 			<div>Add a new card to the score</div>
 			<div class="mt-4">
-				<Button on:click={() => (showAddCard = !showAddCard)}>
-					{showAddCard ? 'Hide' : 'Click to add'}
+				<Button on:click={() => (addCard = !addCard)}>
+					{addCard ? 'Hide' : 'Click to add'}
 				</Button>
 			</div>
 		</div>
-		{#if showAddCard}
+		{#if addCard}
 			<AddCard on:add={handleAdd} />
 		{/if}
 
 		<div class="mt-4">
-			<Button on:click={() => (showSaveModal = true)}>Save Score</Button>
+			<Button on:click={() => (saveModal = true)}>Save Score</Button>
 		</div>
-		<Modal
-			show={showSaveModal}
-			on:click_outside={() => (showSaveModal = false)}
-		>
+		<Modal show={saveModal} on:click_outside={() => (saveModal = false)}>
 			<div class="text-center">Are you sure you want to save?</div>
 			<div class="my-8 flex flex-row justify-around">
-				<Button on:click={() => (showSaveModal = false)}>Close</Button>
+				<Button on:click={() => (saveModal = false)}>Close</Button>
 				<Button on:click={handleSave}>Yes</Button>
 			</div>
 		</Modal>
 	</div>
 	<div class="mt-4">
-		<Button on:click={() => (showResetModal = true)}>Reset Score</Button>
-		<Modal
-			show={showResetModal}
-			on:click_outside={() => (showResetModal = false)}
-		>
+		<Button on:click={() => (resetModal = true)}>Reset Score</Button>
+		<Modal show={resetModal} on:click_outside={() => (resetModal = false)}>
 			<div class="text-center">Are you sure you want to reset?</div>
 			<div class="my-8 flex flex-row justify-around">
-				<Button on:click={() => (showResetModal = false)}>Close</Button>
+				<Button on:click={() => (resetModal = false)}>Close</Button>
 				<Button on:click={handleReset}>Yes</Button>
 			</div>
 		</Modal>
@@ -196,3 +192,4 @@
 {:else}
 	This room does not exist
 {/if}
+<Toast bind:toast message={'this is a toast message'} />
