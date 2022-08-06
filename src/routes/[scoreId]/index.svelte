@@ -47,11 +47,11 @@
 <script>
 	import { page } from '$app/stores';
 	import { user } from '$stores/user';
-	import Button from '*c/Button.svelte';
-	import Modal from '*c/Modal.svelte';
-	import AddCard from '*c/AddCard.svelte';
-	import Score from '*c/Score.svelte';
-	import Toast from '*c/Toast.svelte';
+	import Button from '$c/Button.svelte';
+	import Modal from '$c/Modal.svelte';
+	import AddCard from '$c/AddCard.svelte';
+	import Score from '$c/Score.svelte';
+	import Toast from '$c/Toast.svelte';
 
 	let { scoreId } = $page.params;
 	let { score, currentCard } = $page.stuff;

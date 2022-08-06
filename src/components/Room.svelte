@@ -2,10 +2,10 @@
 	import { page } from '$app/stores';
 	import { supabase } from '$lib/supabaseClient.js';
 	import { user } from '$stores/user';
-	import Button from '*c/Button.svelte';
-	import Modal from '*c/Modal.svelte';
-	import AddCard from '*c/AddCard.svelte';
-	import Score from '*c/Score.svelte';
+	import Button from '$c/Button.svelte';
+	import Modal from '$c/Modal.svelte';
+	import AddCard from '$c/AddCard.svelte';
+	import Score from '$c/Score.svelte';
 
 	let { room } = $page.params;
 	let { score, currentCard } = $page.stuff;

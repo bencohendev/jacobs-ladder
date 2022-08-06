@@ -45,7 +45,7 @@
 
 <script>
 	import { page } from '$app/stores';
-	import Score from '*c/Score.svelte';
+	import Score from '$c/Score.svelte';
 
 	let { scoreId } = $page.params;
 	let { score } = $page.stuff;
