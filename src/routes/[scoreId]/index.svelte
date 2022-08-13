@@ -45,6 +45,7 @@
 </script>
 
 <script>
+	import monitorAwareness from '$lib/awareness';
 	import { page } from '$app/stores';
 	import { user } from '$stores/user';
 	import Button from '$c/Button.svelte';
@@ -52,6 +53,7 @@
 	import AddCard from '$c/AddCard.svelte';
 	import Score from '$c/Score.svelte';
 	import Toast from '$c/Toast.svelte';
+	import { onMount } from 'svelte';
 
 	let { scoreId } = $page.params;
 	let { score, currentCard } = $page.stuff;
@@ -131,9 +133,14 @@
 				console.log('subscription update', payload);
 			})
 			.subscribe();
+		console.log('yo', $user, scoreId);
 	};
 
 	subscribe();
+
+	onMount(() => {
+		monitorAwareness(scoreId, $user.email);
+	});
 </script>
 
 {#if score}
