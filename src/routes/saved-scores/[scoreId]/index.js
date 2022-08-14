@@ -1,6 +1,7 @@
 import { supabase } from '$lib/supabaseClient.js';
 
 export async function GET({ params }) {
+	console.log('🚀 ~ file: index.js ~ line 4 ~ load ~ params', params);
 	let { scoreId } = params;
 	let score, ownerId, currentCard;
 	let data = await getScore();
@@ -20,7 +21,7 @@ export async function GET({ params }) {
 			status: 404
 		};
 	}
-	//--------- Functions
+	//------------Functions
 	async function setScoreData(data) {
 		data = data[0];
 		ownerId = data?.owner_id;

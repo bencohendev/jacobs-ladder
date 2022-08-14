@@ -2,6 +2,8 @@
 	export let score, scoreId, currentCard;
 	export let ownerId = $user.id;
 
+	import { onMount } from 'svelte';
+	import { supabase } from '$lib/supabaseClient.js';
 	import monitorAwareness from '$lib/awareness';
 	import { user } from '$stores/user';
 	import Button from '$c/Button.svelte';
@@ -9,7 +11,6 @@
 	import AddCard from '$c/AddCard.svelte';
 	import Score from '$c/Score.svelte';
 	import Toast from '$c/Toast.svelte';
-	import { onMount } from 'svelte';
 
 	let addCard = false;
 	let saveModal = false;

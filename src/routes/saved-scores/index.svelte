@@ -31,8 +31,6 @@
 <script>
 	export let scores = [];
 
-	import Button from '$c/Button.svelte';
-
 	scores = scores.map((score) => {
 		let d = new Date(score.created_at);
 		d = `${d.getMonth()}/${d.getDate()}/${d.getFullYear()}`;
