@@ -25,12 +25,7 @@ const monitorAwareness = (roomId, name) => {
 	awareness.on('change', () => {
 		// Map each awareness state to a dom-string
 		const strings = [];
-		awareness.getStates().forEach((state) => {
-			console.log(state);
-			// if (state.user) {
-			//   strings.push(`<div style="color:${state.user.color};">• ${state.user.name}</div>`)
-			// }
-		});
+		console.log(Array.from(awareness.getStates().values()));
 	});
 };
 
