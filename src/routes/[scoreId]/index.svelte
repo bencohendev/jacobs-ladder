@@ -1,50 +1,5 @@
-<script context="module">
-	import { supabase } from '$lib/supabaseClient.js';
-	export async function load({ url, params }) {
-		let { scoreId } = params;
-		let score, ownerId, currentCard;
-		let saved = url.pathname.includes('saved-scores');
-		let data = await getScore();
-		if (data) {
-			setScoreData(data);
-		} else {
-			score = null;
-		}
-		return {
-			props: {
-				ownerId,
-				score
-			},
-			stuff: {
-				ownerId,
-				score,
-				currentCard
-			}
-		};
-		async function setScoreData(data) {
-			data = data[0];
-			ownerId = data?.owner_id;
-			score = data?.cards;
-			currentCard = data?.score_index || 0;
-		}
-		async function getScore() {
-			try {
-				let { data, error } = await supabase
-					.from('scores')
-					.select('*')
-					.eq('score_id', scoreId);
-				if (error) throw error;
-				return data;
-			} catch (error) {
-				console.error(error);
-			}
-		}
-	}
-</script>
-
 <script>
 	import monitorAwareness from '$lib/awareness';
-	import { page } from '$app/stores';
 	import { user } from '$stores/user';
 	import Button from '$c/Button.svelte';
 	import Modal from '$c/Modal.svelte';
@@ -53,9 +8,8 @@
 	import Toast from '$c/Toast.svelte';
 	import { onMount } from 'svelte';
 
-	let { scoreId } = $page.params;
-	let { score, currentCard } = $page.stuff;
-	let ownerId = $user.id;
+	export let score, scoreId, currentCard;
+	export let ownerId = $user.id;
 	let addCard = false;
 	let saveModal = false;
 	let resetModal = false;
@@ -136,7 +90,7 @@
 
 {#if score}
 	<div class="font-bold mt-8">
-		Score {scoreId}
+		Score: {scoreId}
 	</div>
 	<div class="flex flex-col items-center">
 		<div class="my-8">
