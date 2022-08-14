@@ -35,7 +35,7 @@
 
 	const handleNextCard = async () => {
 		try {
-			const { data, error } = await supabase
+			const { error } = await supabase
 				.from('scores')
 				.update({ score_index: ++currentCard })
 				.eq('score_id', scoreId);
@@ -59,7 +59,7 @@
 
 	const handleSave = async () => {
 		try {
-			const { data, error } = await supabase
+			const { error } = await supabase
 				.from('saved_scores')
 				.insert({ cards: score, owner_id: ownerId, score_id: scoreId });
 
@@ -73,7 +73,7 @@
 
 	const handleReset = async () => {
 		try {
-			const { data, error } = await supabase
+			const { error } = await supabase
 				.from('scores')
 				.update({ cards: [] })
 				.eq('score_id', scoreId);
@@ -103,60 +103,57 @@
 	});
 </script>
 
-{#if score}
-	<div class="font-bold mt-8">
-		Score: {scoreId}
+<div class="font-bold mt-8">
+	Score: {scoreId}
+</div>
+<div class="flex flex-col items-center">
+	<div class="my-8">
+		<h2 class="text-xl font-bold ">Score</h2>
+		<Score bind:score {currentCard} />
 	</div>
-	<div class="flex flex-col items-center">
-		<div class="my-8">
-			<h2 class="text-xl font-bold ">Score</h2>
-			<Score bind:score {currentCard} />
+	{#if $user && $user.id === ownerId && score.length > 1}
+		<div>
+			<Button
+				disabled={currentCard === score.length - 1}
+				on:click={handleNextCard}
+			>
+				Next Card
+			</Button>
 		</div>
-		{#if $user && $user.id === ownerId && score.length > 1}
-			<div>
-				<Button
-					disabled={currentCard === score.length - 1}
-					on:click={handleNextCard}
-				>
-					Next Card
-				</Button>
-			</div>
-		{/if}
+	{/if}
 
-		<div class="my-4 flex flex-col items-center">
-			<div>Add a new card to the score</div>
-			<div class="mt-4">
-				<Button on:click={() => (addCard = !addCard)}>
-					{addCard ? 'Hide' : 'Click to add'}
-				</Button>
-			</div>
-		</div>
-		{#if addCard}
-			<AddCard on:add={handleAdd} />
-		{/if}
-
+	<div class="my-4 flex flex-col items-center">
+		<div>Add a new card to the score</div>
 		<div class="mt-4">
-			<Button on:click={handleShowSave}>Save Score</Button>
+			<Button on:click={() => (addCard = !addCard)}>
+				{addCard ? 'Hide' : 'Click to add'}
+			</Button>
 		</div>
-		<Modal show={saveModal} on:click_outside={() => (saveModal = false)}>
-			<div class="text-center">Are you sure you want to save?</div>
-			<div class="my-8 flex flex-row justify-around">
-				<Button on:click={() => (saveModal = false)}>Close</Button>
-				<Button on:click={handleSave}>Yes</Button>
-			</div>
-		</Modal>
 	</div>
+	{#if addCard}
+		<AddCard on:add={handleAdd} />
+	{/if}
+
 	<div class="mt-4">
-		<Button on:click={() => (resetModal = true)}>Reset Score</Button>
-		<Modal show={resetModal} on:click_outside={() => (resetModal = false)}>
-			<div class="text-center">Are you sure you want to reset?</div>
-			<div class="my-8 flex flex-row justify-around">
-				<Button on:click={() => (resetModal = false)}>Close</Button>
-				<Button on:click={handleReset}>Yes</Button>
-			</div>
-		</Modal>
+		<Button on:click={handleShowSave}>Save Score</Button>
 	</div>
-{:else}
-	This score does not exist
-{/if}
+	<Modal show={saveModal} on:click_outside={() => (saveModal = false)}>
+		<div class="text-center">Are you sure you want to save?</div>
+		<div class="my-8 flex flex-row justify-around">
+			<Button on:click={() => (saveModal = false)}>Close</Button>
+			<Button on:click={handleSave}>Yes</Button>
+		</div>
+	</Modal>
+</div>
+<div class="mt-4">
+	<Button on:click={() => (resetModal = true)}>Reset Score</Button>
+	<Modal show={resetModal} on:click_outside={() => (resetModal = false)}>
+		<div class="text-center">Are you sure you want to reset?</div>
+		<div class="my-8 flex flex-row justify-around">
+			<Button on:click={() => (resetModal = false)}>Close</Button>
+			<Button on:click={handleReset}>Yes</Button>
+		</div>
+	</Modal>
+</div>
+
 <Toast bind:toast message={toastMessage} />
