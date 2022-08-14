@@ -10,9 +10,7 @@ const monitorAwareness = (scoreId, name) => {
 
 	// All network providers implement the awareness protocol. You can use it to propagate information about yourself.
 	const awareness = provider.awareness;
-	console.log('aware', awareness);
 	const setUsername = () => {
-		console.log('set username', name);
 		awareness.setLocalStateField('user', { name });
 	};
 	// Set a randomly generated username - this is nice for testing

@@ -21,7 +21,6 @@
 					.from('scores')
 					.insert({ score_id: newScoreId, owner_id: $user.id });
 				if (error) throw error;
-				console.log(data, error);
 			} catch (error) {
 				console.error(error);
 			}

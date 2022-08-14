@@ -10,7 +10,6 @@
 			url: '/'
 		}
 	];
-	console.log($user);
 </script>
 
 <div class="flex justify-between border">

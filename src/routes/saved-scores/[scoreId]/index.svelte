@@ -3,7 +3,6 @@
 	export async function load({ url, params }) {
 		let { scoreId } = params;
 		let score, ownerId, currentCard;
-		let saved = url.pathname.includes('saved-scores');
 		let data = await getScore();
 		if (data) {
 			setScoreData(data);
@@ -33,7 +32,6 @@
 					.from('scores')
 					.select('*')
 					.eq('score_id', scoreId);
-				console.log(data, error);
 				if (error) throw error;
 				return data;
 			} catch (error) {

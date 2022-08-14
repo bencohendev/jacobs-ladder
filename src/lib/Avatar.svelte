@@ -19,10 +19,6 @@
 			if (error) throw error;
 
 			src = URL.createObjectURL(data);
-			console.log(
-				'🚀 ~ file: Avatar.svelte ~ line 20 ~ downloadImage ~ src',
-				src
-			);
 		} catch (error) {
 			console.error('Error downloading image: ', error.message);
 		}

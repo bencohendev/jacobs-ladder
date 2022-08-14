@@ -5,7 +5,6 @@
 		let scores;
 
 		let data = await getScores();
-		console.log('🚀 ~ file: index.svelte ~ line 8 ~ load ~ data', data);
 		scores = data;
 
 		return {
@@ -43,10 +42,6 @@
 			scoreId: score.score_id
 		};
 	});
-	console.log(
-		'🚀 ~ file: saved-scores.svelte ~ line 47 ~ scores=scores.map ~ scores',
-		scores
-	);
 </script>
 
 {#each scores as score}

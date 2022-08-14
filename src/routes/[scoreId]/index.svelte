@@ -10,7 +10,6 @@
 		} else {
 			score = null;
 		}
-		console.log('params', saved, { params });
 		return {
 			props: {
 				ownerId,
@@ -34,7 +33,6 @@
 					.from('scores')
 					.select('*')
 					.eq('score_id', scoreId);
-				console.log(data, error);
 				if (error) throw error;
 				return data;
 			} catch (error) {
@@ -72,7 +70,6 @@
 				.eq('score_id', scoreId);
 
 			if (error) throw error;
-			console.log(data, error);
 			addCard = false;
 		} catch (error) {
 			console.error(error);
@@ -85,9 +82,7 @@
 				.from('scores')
 				.update({ score_index: ++currentCard })
 				.eq('score_id', scoreId);
-			console.log(currentCard);
 			if (error) throw error;
-			console.log(data, error);
 		} catch (error) {
 			console.error(error);
 		}
@@ -100,7 +95,6 @@
 				.insert({ cards: score, owner_id: ownerId, score_id: scoreId });
 
 			if (error) throw error;
-			console.log(data, error);
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -116,7 +110,6 @@
 				.eq('score_id', scoreId);
 
 			if (error) throw error;
-			console.log(data, error);
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -130,7 +123,6 @@
 			.on('*', (payload) => {
 				score = payload.new.cards;
 				currentCard = payload.new.score_index;
-				console.log('subscription update', payload);
 			})
 			.subscribe();
 	};
