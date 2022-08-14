@@ -6,14 +6,13 @@ const monitorAwareness = (roomId, name) => {
 	// A Yjs document holds the shared data
 	const ydoc = new Y.Doc();
 
-	const provider = new WebrtcProvider(`${roomId}`, ydoc, {
-		signaling: ['ws://localhost:5173']
-	});
+	const provider = new WebrtcProvider(`${roomId}`, ydoc);
 
 	// All network providers implement the awareness protocol. You can use it to propagate information about yourself.
 	const awareness = provider.awareness;
 	console.log('aware', awareness);
 	const setUsername = () => {
+		console.log('set username', name);
 		awareness.setLocalStateField('user', { name });
 	};
 	// Set a randomly generated username - this is nice for testing
