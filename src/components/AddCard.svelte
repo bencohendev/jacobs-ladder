@@ -1,13 +1,21 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import Button from '$c/Button.svelte';
+	import Toast from '$c/Toast.svelte';
 	let rowThree, rowTwo, rowOne;
-
+	let toast = false;
 	const dispatch = createEventDispatcher();
 
 	const handleClick = () => {
-		dispatch('add', { rowOne, rowTwo, rowThree });
-		rowOne = null;
+		if (rowOne) {
+			dispatch('add', { rowOne, rowTwo, rowThree });
+			rowOne = null;
+		} else {
+			toast = true;
+			setTimeout(() => {
+				toast = false;
+			}, 3000);
+		}
 	};
 
 	$: {
@@ -63,3 +71,4 @@
 		<Button on:click={handleClick}>Add Card</Button>
 	</div>
 </div>
+<Toast {toast} message="Input a value to add a card" />
