@@ -16,6 +16,7 @@
 	let saveModal = false;
 	let resetModal = false;
 	let toast = false;
+	let toastMessage = '';
 
 	const handleAdd = async (e) => {
 		const card = e.detail;
@@ -41,6 +42,18 @@
 			if (error) throw error;
 		} catch (error) {
 			console.error(error);
+		}
+	};
+
+	const handleShowSave = () => {
+		if (score.length > 0) {
+			showSave = true;
+		} else {
+			toast = true;
+			toastMessage = 'Please add a card to save the score';
+			setTimeout(() => {
+				toast = false;
+			}, 3000);
 		}
 	};
 
@@ -123,7 +136,7 @@
 		{/if}
 
 		<div class="mt-4">
-			<Button on:click={() => (saveModal = true)}>Save Score</Button>
+			<Button on:click={handleShowSave}>Save Score</Button>
 		</div>
 		<Modal show={saveModal} on:click_outside={() => (saveModal = false)}>
 			<div class="text-center">Are you sure you want to save?</div>
@@ -146,4 +159,4 @@
 {:else}
 	This score does not exist
 {/if}
-<Toast bind:toast message={'this is a toast message'} />
+<Toast bind:toast message={toastMessage} />
