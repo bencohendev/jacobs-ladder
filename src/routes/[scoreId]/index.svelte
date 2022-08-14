@@ -1,4 +1,7 @@
 <script>
+	export let score, scoreId, currentCard;
+	export let ownerId = $user.id;
+
 	import monitorAwareness from '$lib/awareness';
 	import { user } from '$stores/user';
 	import Button from '$c/Button.svelte';
@@ -8,8 +11,6 @@
 	import Toast from '$c/Toast.svelte';
 	import { onMount } from 'svelte';
 
-	export let score, scoreId, currentCard;
-	export let ownerId = $user.id;
 	let addCard = false;
 	let saveModal = false;
 	let resetModal = false;
