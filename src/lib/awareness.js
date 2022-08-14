@@ -2,11 +2,11 @@ import * as Y from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import DoUsername from 'do_username';
 
-const monitorAwareness = (roomId, name) => {
+const monitorAwareness = (scoreId, name) => {
 	// A Yjs document holds the shared data
 	const ydoc = new Y.Doc();
 
-	const provider = new WebrtcProvider(`${roomId}`, ydoc);
+	const provider = new WebrtcProvider(`${scoreId}`, ydoc);
 
 	// All network providers implement the awareness protocol. You can use it to propagate information about yourself.
 	const awareness = provider.awareness;

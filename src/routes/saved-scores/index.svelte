@@ -18,7 +18,7 @@
 			try {
 				let { data, error } = await supabase
 					.from('saved_scores')
-					.select('cards, created_at, room_id')
+					.select('cards, created_at, score_id')
 					.eq('owner_id', userId);
 				if (error) throw error;
 				return data;
@@ -40,7 +40,7 @@
 		return {
 			createdOn: d,
 			cards: score.cards,
-			room: score.room_id
+			scoreId: score.score_id
 		};
 	});
 	console.log(
@@ -52,7 +52,8 @@
 {#each scores as score}
 	<div class="flex justify-between gap-2 items-center">
 		<div>{score.createdOn}</div>
-		<a href="./saved-scores/{score.room}" class="text-blue-700">Show Score</a>
+		<a href="./saved-scores/{score.scoreId}" class="text-blue-700">Show Score</a
+		>
 	</div>
 {:else}
 	<div>No Saved Scores</div>

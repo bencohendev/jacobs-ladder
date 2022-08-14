@@ -5,21 +5,21 @@
 	import Auth from '$lib/Auth.svelte';
 	import Button from '$c/Button.svelte';
 
-	let roomNumber;
+	let scoreId;
 
-	const handleJoinRoom = () => {
-		goto(`/${roomNumber}`);
+	const handleGoToScore = () => {
+		goto(`/${scoreId}`);
 	};
 
-	const handleCreateRoom = () => {
-		const newRoomNumber = Math.floor(10000000 + Math.random() * 90000000);
+	const handleCreateScore = () => {
+		const newScoreId = Math.floor(10000000 + Math.random() * 90000000);
 		createScore();
-		goto(`/${newRoomNumber}`);
+		goto(`/${newScoreId}`);
 		async function createScore() {
 			try {
 				let { data, error } = await supabase
 					.from('scores')
-					.insert({ room_id: newRoomNumber, owner_id: $user.id });
+					.insert({ score_id: newScoreId, owner_id: $user.id });
 				if (error) throw error;
 				console.log(data, error);
 			} catch (error) {
@@ -31,19 +31,19 @@
 
 <div class=" my-2">Welcome To Jacob's Ladder</div>
 {#if $user.id !== 'guest'}
-	<Button on:click={handleCreateRoom}>Create New Room</Button>
+	<Button on:click={handleCreateScore}>Create New Score</Button>
 {:else}
 	<div class="my-2 flex justify-center">
-		<div>Sign up/sign in to create a room</div>
+		<div>Sign up/sign in to create a score</div>
 		<Auth />
 	</div>
 {/if}
 <div class="my-2 flex justify-center">- or -</div>
-<div class="my-2">Enter a room number to join</div>
+<div class="my-2">Enter a score number to join</div>
 <input
 	class="border border-gray rounded my-2"
 	type="text"
-	name="room-number"
-	bind:value={roomNumber}
+	name="score-number"
+	bind:value={scoreId}
 />
-<Button on:click={handleJoinRoom}>Join</Button>
+<Button on:click={handleGoToScore}>Join</Button>

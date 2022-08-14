@@ -33,7 +33,7 @@
 				let { data, error } = await supabase
 					.from('scores')
 					.select('*')
-					.eq('room_id', scoreId);
+					.eq('score_id', scoreId);
 				console.log(data, error);
 				if (error) throw error;
 				return data;
@@ -69,7 +69,7 @@
 			const { data, error } = await supabase
 				.from('scores')
 				.update({ cards: [...score, card] })
-				.eq('room_id', scoreId);
+				.eq('score_id', scoreId);
 
 			if (error) throw error;
 			console.log(data, error);
@@ -84,7 +84,7 @@
 			const { data, error } = await supabase
 				.from('scores')
 				.update({ score_index: ++currentCard })
-				.eq('room_id', scoreId);
+				.eq('score_id', scoreId);
 			console.log(currentCard);
 			if (error) throw error;
 			console.log(data, error);
@@ -97,7 +97,7 @@
 		try {
 			const { data, error } = await supabase
 				.from('saved_scores')
-				.insert({ cards: score, owner_id: ownerId, room_id: scoreId });
+				.insert({ cards: score, owner_id: ownerId, score_id: scoreId });
 
 			if (error) throw error;
 			console.log(data, error);
@@ -113,7 +113,7 @@
 			const { data, error } = await supabase
 				.from('scores')
 				.update({ cards: [] })
-				.eq('room_id', scoreId);
+				.eq('score_id', scoreId);
 
 			if (error) throw error;
 			console.log(data, error);
@@ -125,15 +125,14 @@
 	};
 
 	const subscribe = async () => {
-		const scoreSubscription = await supabase
-			.from(`scores:room_id=eq.${scoreId}`)
+		supabase
+			.from(`scores:score_id=eq.${scoreId}`)
 			.on('*', (payload) => {
 				score = payload.new.cards;
 				currentCard = payload.new.score_index;
 				console.log('subscription update', payload);
 			})
 			.subscribe();
-		console.log('yo', $user, scoreId);
 	};
 
 	subscribe();
@@ -145,7 +144,7 @@
 
 {#if score}
 	<div class="font-bold mt-8">
-		Welcome to room {scoreId}
+		Score {scoreId}
 	</div>
 	<div class="flex flex-col items-center">
 		<div class="my-8">
@@ -197,6 +196,6 @@
 		</Modal>
 	</div>
 {:else}
-	This room does not exist
+	This score does not exist
 {/if}
 <Toast bind:toast message={'this is a toast message'} />

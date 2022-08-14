@@ -32,7 +32,7 @@
 				let { data, error } = await supabase
 					.from('scores')
 					.select('*')
-					.eq('room_id', scoreId);
+					.eq('score_id', scoreId);
 				console.log(data, error);
 				if (error) throw error;
 				return data;
@@ -53,7 +53,7 @@
 
 {#if score}
 	<div class="font-bold mt-8">
-		Welcome to room {scoreId}
+		Welcome to score {scoreId}
 	</div>
 	<div class="flex flex-col items-center">
 		<div class="my-8">
@@ -62,5 +62,5 @@
 		</div>
 	</div>
 {:else}
-	This room does not exist
+	This score does not exist
 {/if}
