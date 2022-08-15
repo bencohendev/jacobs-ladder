@@ -9,7 +9,7 @@
 	export const trigger = (_message, delay = 3000) => {
 		toast = true;
 		message = _message;
-		timeoutId = null;
+		clearTimeout(timeoutId);
 		timeoutId = setTimeout(() => {
 			toast = false;
 		}, delay);
@@ -23,7 +23,7 @@
 	>
 		<div class="flex relative mb-1">
 			<slot>{message}</slot>
-			<div class="ml-2 cursor-pointer" on:click={() => (toast = false)}>X</div>
+			<div class="ml-3 cursor-pointer" on:click={() => (toast = false)}>X</div>
 		</div>
 	</div>
 {/if}
