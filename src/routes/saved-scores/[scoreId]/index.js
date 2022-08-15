@@ -1,7 +1,6 @@
 import { supabase } from '$lib/supabaseClient.js';
 
 export async function GET({ params }) {
-	console.log('🚀 ~ file: index.js ~ line 4 ~ load ~ params', params);
 	let { scoreId } = params;
 	let score, ownerId, currentCard;
 	let data = await getScore();
@@ -18,9 +17,11 @@ export async function GET({ params }) {
 		};
 	} else {
 		return {
-			status: 404
+			status: 404,
+			body: new Error(`This is not the score you're looking for`)
 		};
 	}
+
 	//------------Functions
 	async function setScoreData(data) {
 		data = data[0];

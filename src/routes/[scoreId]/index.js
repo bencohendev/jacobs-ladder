@@ -17,7 +17,8 @@ export async function GET({ params }) {
 		};
 	} else {
 		return {
-			status: 404
+			status: 404,
+			body: new Error(`This is not the score you're looking for`)
 		};
 	}
 	//--------- Functions
