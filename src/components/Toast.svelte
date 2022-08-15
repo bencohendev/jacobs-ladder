@@ -1,7 +1,19 @@
+<svelte:options accessors={true} />
+
 <script>
-	export let message = '';
-	export let toast = false;
+	let message = '';
+	let toast = false;
+	let timeoutId;
 	import { fade } from 'svelte/transition';
+
+	export const trigger = (_message, delay = 3000) => {
+		toast = true;
+		message = _message;
+		timeoutId = null;
+		timeoutId = setTimeout(() => {
+			toast = false;
+		}, delay);
+	};
 </script>
 
 {#if toast}

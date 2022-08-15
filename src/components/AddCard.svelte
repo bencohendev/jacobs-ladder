@@ -3,7 +3,7 @@
 	import Button from '$c/Button.svelte';
 	import Toast from '$c/Toast.svelte';
 	let rowThree, rowTwo, rowOne;
-	let toast = false;
+	let ToastInstance;
 	const dispatch = createEventDispatcher();
 
 	const handleClick = () => {
@@ -11,10 +11,7 @@
 			dispatch('add', { rowOne, rowTwo, rowThree });
 			rowOne = null;
 		} else {
-			toast = true;
-			setTimeout(() => {
-				toast = false;
-			}, 3000);
+			ToastInstance.trigger('Input a value to add a card');
 		}
 	};
 
@@ -71,4 +68,4 @@
 		<Button on:click={handleClick}>Add Card</Button>
 	</div>
 </div>
-<Toast {toast} message="Input a value to add a card" />
+<Toast bind:this={ToastInstance} />

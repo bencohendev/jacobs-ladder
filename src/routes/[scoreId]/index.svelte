@@ -2,21 +2,19 @@
 	export let score, scoreId, currentCard;
 	export let ownerId = $user.id;
 
-	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabaseClient.js';
-	import monitorAwareness from '$lib/awareness';
 	import { user } from '$stores/user';
 	import Button from '$c/Button.svelte';
 	import Modal from '$c/Modal.svelte';
 	import AddCard from '$c/AddCard.svelte';
 	import Score from '$c/Score.svelte';
 	import Toast from '$c/Toast.svelte';
+	import Awarenes from '$lib/Awarenes.svelte';
 
 	let addCard = false;
 	let saveModal = false;
 	let resetModal = false;
-	let toast = false;
-	let toastMessage = '';
+	let ToastInstance = false;
 
 	const handleAdd = async (e) => {
 		const card = e.detail;
@@ -49,11 +47,7 @@
 		if (score.length > 0) {
 			showSave = true;
 		} else {
-			toast = true;
-			toastMessage = 'Please add a card to save the score';
-			setTimeout(() => {
-				toast = false;
-			}, 3000);
+			ToastInstance.trigger('Please add a card to save the score');
 		}
 	};
 
@@ -97,10 +91,6 @@
 	};
 
 	subscribe();
-
-	onMount(() => {
-		monitorAwareness(scoreId, $user.email);
-	});
 </script>
 
 <div class="font-bold mt-8">
@@ -155,5 +145,5 @@
 		</div>
 	</Modal>
 </div>
-
-<Toast bind:toast message={toastMessage} />
+<Awarenes {scoreId} name={$user.email} />
+<Toast bind:this={ToastInstance} />
