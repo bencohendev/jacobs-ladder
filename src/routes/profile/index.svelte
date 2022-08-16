@@ -4,7 +4,7 @@
 	import Avatar from '$c/Avatar.svelte';
 	import Button from '$c/Button.svelte';
 
-	let loading = true;
+	let loading = false;
 	let username = null;
 	let pronouns = null;
 	let avatar_url = null;
@@ -47,7 +47,7 @@
 	}
 </script>
 
-<form use:getProfile on:submit|preventDefault={updateProfile}>
+<form on:submit|preventDefault={updateProfile}>
 	<div class="my-2">
 		<label for="email">Email</label>
 		<input
@@ -64,7 +64,7 @@
 			class="border border-gray-500 p-1 ml-1"
 			id="username"
 			type="text"
-			bind:value={username}
+			bind:value={$user.username}
 		/>
 	</div>
 	<div class="my-2">
@@ -73,7 +73,7 @@
 			class="border border-gray-500 p-1 ml-1"
 			id="pronouns"
 			type="text"
-			bind:value={pronouns}
+			bind:value={$user.pronouns}
 		/>
 	</div>
 	<div class="flex justify-center">
@@ -86,9 +86,9 @@
 	</div>
 </form>
 <div>Profile Picture</div>
-<form use:getProfile on:submit|preventDefault={updateProfile}>
+<form on:submit|preventDefault={updateProfile}>
 	<!-- Add to body -->
-	<Avatar bind:path={avatar_url} on:upload={updateProfile} />
+	<Avatar bind:path={$user.avatar_url} on:upload={updateProfile} />
 
 	<!-- Other form elements -->
 </form>
