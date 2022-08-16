@@ -5,9 +5,7 @@
 	import Button from '$c/Button.svelte';
 
 	let loading = false;
-	let username = null;
-	let pronouns = null;
-	let avatarURL = null;
+	let { username, pronouns, avatarURL, email } = $user;
 
 	async function updateProfile() {
 		try {
@@ -27,6 +25,7 @@
 			});
 
 			if (error) throw error;
+			console.log('huh');
 		} catch (error) {
 			alert(error.message);
 		} finally {
@@ -45,6 +44,7 @@
 			loading = false;
 		}
 	}
+	console.log('user', $user);
 </script>
 
 <form on:submit|preventDefault={updateProfile}>
@@ -54,7 +54,7 @@
 			class="border border-gray-500 p-1 ml-1"
 			id="email"
 			type="text"
-			value={$user.email}
+			value={email}
 			disabled
 		/>
 	</div>
@@ -64,7 +64,7 @@
 			class="border border-gray-500 p-1 ml-1"
 			id="username"
 			type="text"
-			bind:value={$user.username}
+			bind:value={username}
 		/>
 	</div>
 	<div class="my-2">
@@ -73,7 +73,7 @@
 			class="border border-gray-500 p-1 ml-1"
 			id="pronouns"
 			type="text"
-			bind:value={$user.pronouns}
+			bind:value={pronouns}
 		/>
 	</div>
 	<div class="flex justify-center">
@@ -88,7 +88,7 @@
 <div>Profile Picture</div>
 <form on:submit|preventDefault={updateProfile}>
 	<!-- Add to body -->
-	<Avatar bind:path={$user.avatarURL} on:upload={updateProfile} />
+	<Avatar bind:path={avatarURL} on:upload={updateProfile} />
 
 	<!-- Other form elements -->
 </form>
