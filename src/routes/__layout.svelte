@@ -17,7 +17,7 @@
 
 				if (data) {
 					returnedUser.username = data?.username;
-					returnedUser.avatar_url = data?.avatar_url;
+					returnedUser.avatarURL = data?.avatar_url;
 					returnedUser.pronouns = data?.pronouns;
 				}
 			} catch (error) {

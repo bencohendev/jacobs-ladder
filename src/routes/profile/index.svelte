@@ -7,7 +7,7 @@
 	let loading = false;
 	let username = null;
 	let pronouns = null;
-	let avatar_url = null;
+	let avatarURL = null;
 
 	async function updateProfile() {
 		try {
@@ -17,7 +17,7 @@
 			const updates = {
 				id: user.id,
 				username,
-				avatar_url,
+				avatar_url: avatarURL,
 				pronouns,
 				updated_at: new Date()
 			};
@@ -88,7 +88,7 @@
 <div>Profile Picture</div>
 <form on:submit|preventDefault={updateProfile}>
 	<!-- Add to body -->
-	<Avatar bind:path={$user.avatar_url} on:upload={updateProfile} />
+	<Avatar bind:path={$user.avatarURL} on:upload={updateProfile} />
 
 	<!-- Other form elements -->
 </form>
