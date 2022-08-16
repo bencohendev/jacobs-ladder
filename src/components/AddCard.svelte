@@ -10,7 +10,7 @@
 	const handleClick = () => {
 		const name = $user.username;
 		if (rowOne) {
-			dispatch('add', { card: { rowOne, rowTwo, rowThree }, name });
+			dispatch('add', { rowOne, rowTwo, rowThree, name });
 			rowOne = null;
 		} else {
 			ToastInstance.trigger('Input a value to add a card');
