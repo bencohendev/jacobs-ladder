@@ -17,11 +17,12 @@
 	let ToastInstance = false;
 
 	const handleAdd = async (e) => {
-		const card = e.detail;
+		const card = e.detail.card;
+		const name = e.detail.name;
 		try {
 			const { error } = await supabase
 				.from('scores')
-				.update({ cards: [...score, card] })
+				.update({ cards: [...score, card], created_by: name })
 				.eq('score_id', scoreId);
 
 			if (error) throw error;

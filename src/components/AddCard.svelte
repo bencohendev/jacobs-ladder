@@ -1,5 +1,6 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
+	import { user } from '$stores/user';
 	import Button from '$c/Button.svelte';
 	import Toast from '$c/Toast.svelte';
 	let rowThree, rowTwo, rowOne;
@@ -7,8 +8,9 @@
 	const dispatch = createEventDispatcher();
 
 	const handleClick = () => {
+		const name = $user.username;
 		if (rowOne) {
-			dispatch('add', { rowOne, rowTwo, rowThree });
+			dispatch('add', { card: { rowOne, rowTwo, rowThree }, name });
 			rowOne = null;
 		} else {
 			ToastInstance.trigger('Input a value to add a card');
