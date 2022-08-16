@@ -3,7 +3,6 @@
 
 	import * as Y from 'yjs';
 	import { WebrtcProvider } from 'y-webrtc';
-	import DoUsername from 'do_username';
 	import Toast from '$c/Toast.svelte';
 	import { onMount } from 'svelte';
 
@@ -21,7 +20,6 @@
 		const awareness = provider.awareness;
 
 		// Set a randomly generated username - this is nice for testing
-		name = name || DoUsername.generate(15);
 		awareness.setLocalStateField('user', { name });
 
 		// Render a list of usernames next to the editor whenever new information is available from the awareness instance

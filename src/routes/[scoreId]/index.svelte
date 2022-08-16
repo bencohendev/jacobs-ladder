@@ -19,7 +19,7 @@
 	const handleAdd = async (e) => {
 		const card = e.detail;
 		try {
-			const { data, error } = await supabase
+			const { error } = await supabase
 				.from('scores')
 				.update({ cards: [...score, card] })
 				.eq('score_id', scoreId);
@@ -145,5 +145,5 @@
 		</div>
 	</Modal>
 </div>
-<Awarenes {scoreId} name={$user.name || $user.email} />
+<Awarenes {scoreId} name={$user.username || $user.email} />
 <Toast bind:this={ToastInstance} />
