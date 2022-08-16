@@ -6,8 +6,24 @@
 		let returnedUser = supabase.auth.user();
 		returnedUser = returnedUser ? returnedUser : { id: 'guest' };
 
-		user.set(returnedUser);
+		try {
+			let { data, error, status } = await supabase
+				.from('profiles')
+				.select(`*`)
+				.eq('id', returnedUser.id)
+				.single();
 
+			if (error && status !== 406) throw error;
+
+			if (data) {
+				returnedUser.username = data?.username;
+				returnedUser.avatar_url = data?.avatar_url;
+				returnedUser.pronouns = data?.pronouns;
+			}
+		} catch (error) {
+			console.error(error.message);
+		}
+		user.set(returnedUser);
 		return { stuff: { user: returnedUser } };
 	}
 	const setAuthListener = () => {
@@ -22,6 +38,7 @@
 <script>
 	import '../app.css';
 	import Nav from '$c/Nav.svelte';
+	console.log('user', $user);
 </script>
 
 <div class="p-20">

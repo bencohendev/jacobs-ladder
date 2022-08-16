@@ -9,31 +9,6 @@
 	let pronouns = null;
 	let avatar_url = null;
 
-	async function getProfile() {
-		try {
-			loading = true;
-			const user = supabase.auth.user();
-
-			let { data, error, status } = await supabase
-				.from('profiles')
-				.select(`*`)
-				.eq('id', user.id)
-				.single();
-
-			if (error && status !== 406) throw error;
-
-			if (data) {
-				username = data?.username;
-				avatar_url = data?.avatar_url;
-				pronouns = data?.pronouns;
-			}
-		} catch (error) {
-			alert(error.message);
-		} finally {
-			loading = false;
-		}
-	}
-
 	async function updateProfile() {
 		try {
 			loading = true;

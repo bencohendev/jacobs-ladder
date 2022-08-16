@@ -145,5 +145,5 @@
 		</div>
 	</Modal>
 </div>
-<Awarenes {scoreId} name={$user.email} />
+<Awarenes {scoreId} name={$user.name || $user.email} />
 <Toast bind:this={ToastInstance} />
