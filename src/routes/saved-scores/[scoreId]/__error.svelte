@@ -12,7 +12,6 @@
 
 <script>
 	export let title, message;
-	console.log(title);
 </script>
 
 <h1>{title}</h1>

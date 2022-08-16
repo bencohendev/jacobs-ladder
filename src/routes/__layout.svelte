@@ -38,7 +38,6 @@
 <script>
 	import '../app.css';
 	import Nav from '$c/Nav.svelte';
-	console.log('user', $user);
 </script>
 
 <div class="p-20">
