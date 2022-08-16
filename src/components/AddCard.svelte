@@ -8,9 +8,13 @@
 	const dispatch = createEventDispatcher();
 
 	const handleClick = () => {
-		const name = $user.username;
+		let _user = $user.id !== 'guest' ? $user.id : $user.username;
+		console.log(
+			'🚀 ~ file: AddCard.svelte ~ line 12 ~ handleClick ~ $user.username',
+			$user.username
+		);
 		if (rowOne) {
-			dispatch('add', { rowOne, rowTwo, rowThree, name });
+			dispatch('add', { rowOne, rowTwo, rowThree, user: _user });
 			rowOne = null;
 		} else {
 			ToastInstance.trigger('Input a value to add a card');
