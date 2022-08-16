@@ -1,8 +1,10 @@
 <script>
-	export let user = '';
+	export let userId = '';
 
 	import { supabase } from '$lib/supabaseClient';
 	import Tooltip from '$c/Tooltip.svelte';
+	const regexExp =
+		/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 
 	let firstLetter = '';
 	let src;
@@ -15,7 +17,7 @@
 			let { data, error, status } = await supabase
 				.from('profiles')
 				.select(`*`)
-				.eq('id', user)
+				.eq('id', userId)
 				.single();
 
 			if (error && status !== 406) throw error;
@@ -26,9 +28,8 @@
 				username = data?.username;
 			}
 		} catch (error) {
-			console.log(user);
-			username = user;
-			firstLetter = user.charAt(0).toUpperCase();
+			console.log(userId);
+
 			console.error(error.message);
 		}
 	};
@@ -53,8 +54,16 @@
 		tooltip = false;
 	};
 
+	const init = () => {
+		if (regexExp.test(userId)) {
+			getProfile();
+		} else {
+			username = userId;
+			firstLetter = userId.charAt(0).toUpperCase();
+		}
+	};
+	init();
 	$: if (avatarURL) downloadImage();
-	getProfile();
 </script>
 
 <div
@@ -66,13 +75,13 @@ border-2 border-blue-500 rounded-full
 	on:mouseleave={hideTooltip}
 >
 	{#if tooltip}
-		<div class="relative left-8 bottom-8">
+		<div class="relative left-8 bottom-8 z-10">
 			<div class="absolute">
 				<Tooltip title={'User'} content={username} />
 			</div>
 		</div>
 	{/if}
-	<div class="relative">
+	<div class="relative cursor-pointer">
 		{#if src}
 			<img {src} alt="Avatar" style="height: 10px; width: 10px;" />
 		{:else}

@@ -23,7 +23,7 @@
 			<div class="h-1/4 flex justify-center items-center">{rowOne}</div>
 			<hr />
 
-			<div class="h-1/4 mt-2"><UserIcon {user} /></div>
+			<div class="h-1/4 mt-2"><UserIcon userId={user} /></div>
 		</div>
 	{:else}
 		<div>Please add a card to get started</div>
