@@ -9,10 +9,7 @@
 
 	const handleClick = () => {
 		let _user = $user.id !== 'guest' ? $user.id : $user.username;
-		console.log(
-			'🚀 ~ file: AddCard.svelte ~ line 12 ~ handleClick ~ $user.username',
-			$user.username
-		);
+
 		if (rowOne) {
 			dispatch('add', { rowOne, rowTwo, rowThree, user: _user });
 			rowOne = null;
