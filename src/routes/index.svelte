@@ -11,13 +11,13 @@
 		goto(`/${scoreId}`);
 	};
 
-	const handleCreateScore = () => {
+	const handleCreateScore = async () => {
 		const newScoreId = Math.floor(10000000 + Math.random() * 90000000);
-		createScore();
+		await createScore();
 		goto(`/${newScoreId}`);
 		async function createScore() {
 			try {
-				let { data, error } = await supabase
+				let { error } = await supabase
 					.from('scores')
 					.insert({ score_id: newScoreId, owner_id: $user.id });
 				if (error) throw error;
