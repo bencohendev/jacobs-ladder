@@ -4,7 +4,7 @@
 	import { supabase } from '$lib/supabaseClient';
 	import Tooltip from '$c/Tooltip.svelte';
 	const regexExp =
-		/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+		/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/i;
 
 	let firstLetter = '';
 	let src;
