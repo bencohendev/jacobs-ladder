@@ -81,9 +81,11 @@ border-2 border-blue-500 rounded-full
 			</div>
 		</div>
 	{/if}
-	<div class="relative cursor-pointer">
+	<div class=" cursor-auto">
 		{#if src}
-			<img {src} alt="Avatar" style="height: 10px; width: 10px;" />
+			<div class="overflow-hidden rounded-full w-6 h-6">
+				<img class="object-fill h-full w-full" {src} alt="Avatar" />
+			</div>
 		{:else}
 			<div>{firstLetter}</div>
 		{/if}
