@@ -1,6 +1,7 @@
+import { error } from '@sveltejs/kit';
 import { supabase } from '$lib/supabaseClient.js';
 
-export async function GET({ params }) {
+export async function load({ params }) {
 	let { scoreId } = params;
 	let score, ownerId, currentCard;
 	let data = await getScore();
@@ -10,19 +11,11 @@ export async function GET({ params }) {
 		score = null;
 	}
 	if (score) {
-		return {
-			status: 200,
-			header: {},
-			body: { score, scoreId, ownerId, currentCard }
-		};
+		return { score, scoreId, ownerId, currentCard };
 	} else {
-		return {
-			status: 404,
-			body: new Error(`This is not the score you're looking for`)
-		};
+		error(404, `This is not the score you're looking for`);
 	}
-
-	//------------Functions
+	//--------- Functions
 	async function setScoreData(data) {
 		data = data[0];
 		ownerId = data?.owner_id;

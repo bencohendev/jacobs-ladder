@@ -1,7 +1,9 @@
 <script>
 	import Score from '$c/Score.svelte';
 
-	export let score, scoreId;
+	export let data;
+
+	$: ({ score, scoreId } = data);
 </script>
 
 <div class="font-bold mt-8">

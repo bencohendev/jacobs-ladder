@@ -7,7 +7,7 @@
 {#if show}
 	<div
 		class="absolute top-0 left-0 w-screen h-screen bg-slate-500 opacity-25"
-	/>
+	></div>
 	<div
 		use:clickOutside
 		on:click_outside
