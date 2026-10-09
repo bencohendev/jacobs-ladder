@@ -1,15 +1,18 @@
 <script>
-	export let score, scoreId, currentCard;
-	export let ownerId = $user.id;
+	export let data;
 
 	import { supabase } from '$lib/supabaseClient.js';
 	import { user } from '$stores/user';
+	import { get } from 'svelte/store';
 	import Button from '$c/Button.svelte';
 	import Modal from '$c/Modal.svelte';
 	import AddCard from '$c/AddCard.svelte';
 	import Score from '$c/Score.svelte';
 	import Toast from '$c/Toast.svelte';
 	import Awarenes from '$lib/Awarenes.svelte';
+
+	let { score, scoreId, currentCard, ownerId = $user.id } = data;
+	$: ({ score, scoreId, currentCard, ownerId = get(user).id } = data);
 
 	let addCard = false;
 	let saveModal = false;
@@ -45,7 +48,7 @@
 
 	const handleShowSave = () => {
 		if (score.length > 0) {
-			showSave = true;
+			saveModal = true;
 		} else {
 			ToastInstance.trigger('Please add a card to save the score');
 		}
@@ -61,7 +64,7 @@
 		} catch (error) {
 			console.error(error);
 		} finally {
-			showSave = false;
+			saveModal = false;
 		}
 	};
 
