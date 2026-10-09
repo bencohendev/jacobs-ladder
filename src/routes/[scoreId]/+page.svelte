@@ -48,7 +48,7 @@
 
 	const handleShowSave = () => {
 		if (score.length > 0) {
-			showSave = true;
+			saveModal = true;
 		} else {
 			ToastInstance.trigger('Please add a card to save the score');
 		}
@@ -64,7 +64,7 @@
 		} catch (error) {
 			console.error(error);
 		} finally {
-			showSave = false;
+			saveModal = false;
 		}
 	};
 
